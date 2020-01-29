@@ -1,34 +1,30 @@
+/*
+Author : Mohamad Raafat Mohamad
+the Greatest Common Divisor by Using the Euclidian Algorithm
+https://www.youtube.com/watch?v=JUzYl1TYMcU
+*/
+
 #include <iostream>
 #include <cmath>
 
 using namespace std;
 
-int gcd_naive(int a, int b) {
-  int current_gcd = 1;
-  for (int d = 2; d <= a && d <= b; d++) {
-    if (a % d == 0 && b % d == 0) {
-      if (d > current_gcd) {
-        current_gcd = d;
-      }
-    }
-  }
-  return current_gcd;
-}
-
-double gcd_fast(double a, double b) {
+double gcd_MRM(long a, long b) {
 
   if(b==0){
     return a;
   }
-  double remenderA = fmod(a,b);
-  cout << b<<"  " <<remenderA << endl;
-  return gcd_fast(b,remenderA);
+  return gcd_MRM(b,a%b);
 }
 
 int main() {
-  double a=3918848;
-  double b=1653264;
-  //cin >> a >> b;
-  cout << gcd_fast(a, b) << endl;
+  long a,b,t1,t2;
+  cin >> t1 >> t2;
+  if(t1!=t2){
+    a=max(t1,t2);
+    b=min(t1,t2);
+    cout << gcd_MRM(a, b) << endl;
+  }else
+    cout << t1 << endl;
   return 0;
 }

@@ -1,4 +1,10 @@
+/*Author : Mohamad Raafat Mohamad*/
+
 #include <iostream>
+
+typedef   long long int   MRM;
+
+using namespace std;
 
 long long get_fibonacci_huge_naive(long long n, long long m) {
     if (n <= 1)
