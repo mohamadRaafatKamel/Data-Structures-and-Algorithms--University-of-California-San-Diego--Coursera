@@ -1,14 +1,25 @@
 #include <iostream>
 #include <vector>
 
-using std::cin;
-using std::cout;
-using std::vector;
-using std::max;
+typedef   long long int  MRM;
 
-int compute_min_refills(int dist, int tank, vector<int> & stops) {
-    // write your code here
-    return -1;
+using namespace std;
+
+int compute_min_refills(int dist, int tank,int n, vector<int> stops) {
+    int numrefill=0,currentDist=0,lastRefill=0;
+    while(currentDist <= n){
+        while (currentDist <=n && stops[currentDist+1]-stops[lastRefill]<=tank){
+            currentDist++;
+        }
+        if(currentDist == lastRefill){
+            return -1;
+        }
+        if(currentDist <= n){
+            numrefill++;
+            lastRefill=currentDist;
+        }
+    }
+    return numrefill;
 }
 
 
@@ -21,10 +32,11 @@ int main() {
     cin >> n;
 
     vector<int> stops(n);
-    for (size_t i = 0; i < n; ++i)
+    stops.push_back(0);
+    for (size_t i = 1; i < n+1; ++i)
         cin >> stops.at(i);
-
-    cout << compute_min_refills(d, m, stops) << "\n";
+    stops.push_back(d);//n+1 is point B
+    cout << compute_min_refills(d, m,n, stops) << "\n";
 
     return 0;
 }

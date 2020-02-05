@@ -2,13 +2,18 @@
 #include <iostream>
 #include <vector>
 
-using std::vector;
+typedef   long long int  MRM;
 
-long long max_dot_product(vector<int> a, vector<int> b) {
+using namespace std;
+
+MRM max_dot_product(vector<MRM> a, vector<MRM> b) {
   // write your code here
-  long long result = 0;
+  MRM result = 0;
+
+  sort(a.begin(), a.end());
+  sort(b.begin(), b.end());
   for (size_t i = 0; i < a.size(); i++) {
-    result += ((long long) a[i]) * b[i];
+    result += ((MRM) a[i]) * b[i];
   }
   return result;
 }
@@ -16,7 +21,7 @@ long long max_dot_product(vector<int> a, vector<int> b) {
 int main() {
   size_t n;
   std::cin >> n;
-  vector<int> a(n), b(n);
+  vector<MRM> a(n), b(n);
   for (size_t i = 0; i < n; i++) {
     std::cin >> a[i];
   }

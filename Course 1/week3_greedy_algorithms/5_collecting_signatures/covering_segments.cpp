@@ -3,32 +3,44 @@
 #include <climits>
 #include <vector>
 
-using std::vector;
+typedef long long int ll;
 
-struct Segment {
-  int start, end;
-};
+using namespace std;
 
-vector<int> optimal_points(vector<Segment> &segments) {
-  vector<int> points;
-  //write your code here
-  for (size_t i = 0; i < segments.size(); ++i) {
-    points.push_back(segments[i].start);
-    points.push_back(segments[i].end);
+int Solve(vector<pair<int, int> > periods, vector<int> &segments) {
+  sort(periods.begin(), periods.end());
+  int current_visit = 0, last_visit = 1, res = 0;
+
+  while (current_visit < periods.size()) {
+    while (last_visit < periods.size() &&
+           periods[current_visit].second >= periods[last_visit].first &&
+           periods[current_visit].second >=
+               periods[last_visit]
+                   .second)  // the interval is fully enclosed by the segment
+    {
+      current_visit = last_visit++;
+    }
+    while (current_visit < periods.size() && last_visit < periods.size() &&
+           periods[current_visit].second - periods[last_visit].first >= 0)
+      last_visit++;
+    res++;
+    segments.push_back(periods[current_visit].second);
+    current_visit = last_visit;
   }
-  return points;
+  return res;
 }
 
 int main() {
+  // freopen("name.txt", "r", stdin);
   int n;
-  std::cin >> n;
-  vector<Segment> segments(n);
-  for (size_t i = 0; i < segments.size(); ++i) {
-    std::cin >> segments[i].start >> segments[i].end;
-  }
-  vector<int> points = optimal_points(segments);
-  std::cout << points.size() << "\n";
-  for (size_t i = 0; i < points.size(); ++i) {
-    std::cout << points[i] << " ";
-  }
+  cin >> n;
+  vector<pair<int, int> > periods(n);
+  vector<int> segments;
+
+  for (int i = 0; i < n; i++) cin >> periods[i].first >> periods[i].second;
+  int Mini_Visits = Solve(periods, segments);
+
+  cout << Mini_Visits << endl;
+  for (int i = 0; i < segments.size(); i++) cout << segments[i] << ' ';
+  return 0;
 }
