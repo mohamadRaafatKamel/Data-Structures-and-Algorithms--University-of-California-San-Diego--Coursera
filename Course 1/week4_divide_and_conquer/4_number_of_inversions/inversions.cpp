@@ -21,5 +21,5 @@ int main() {
     std::cin >> a[i];
   }
   vector<int> b(a.size());
-  std::cout << get_number_of_inversions(a, b, 0, a.size()) << '\n';
+  std::cout << get_number_of_inversions(a, b, 0, a.size()-1) << '\n';
 }
