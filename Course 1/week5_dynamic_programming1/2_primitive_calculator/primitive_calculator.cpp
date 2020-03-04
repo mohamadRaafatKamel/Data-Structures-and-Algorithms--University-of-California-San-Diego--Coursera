@@ -2,28 +2,49 @@
 #include <vector>
 #include <algorithm>
 
-using std::vector;
+using namespace std;
 
-vector<int> optimal_sequence(int n) {
+vector<int> optimal_sequence2( int n ) {
+  vector<int> result( n + 1 );
+  result[0] = 0;
+  result[1] = 0;
+  for ( int i = 2; i <= n; i++ ) {
+    int minResult = result[ i - 1 ];
+
+    if ( i % 2 == 0 ) {
+      minResult = min( minResult, result[ i / 2 ] );
+    }
+
+    if ( i % 3 == 0 ) {
+      minResult = min( minResult, result[ i / 3 ] );
+    }
+
+    result[ i ] = minResult + 1;
+  }
+
   std::vector<int> sequence;
-  while (n >= 1) {
-    sequence.push_back(n);
-    if (n % 3 == 0) {
+
+  while ( n ) {
+    sequence.push_back( n );
+    int minResult = result[ n ] - 1;
+    if ( n % 3 == 0 && minResult == result[ n / 3 ] ) {
       n /= 3;
-    } else if (n % 2 == 0) {
+    } else if ( n % 2 == 0 && minResult == result[ n / 2 ] ) {
       n /= 2;
-    } else {
-      n = n - 1;
+    } else /* if ( minResult == result[ n - 1 ] ) */ {
+      n--;
     }
   }
+
   reverse(sequence.begin(), sequence.end());
   return sequence;
 }
 
+
 int main() {
   int n;
   std::cin >> n;
-  vector<int> sequence = optimal_sequence(n);
+  vector<int> sequence = optimal_sequence2(n);
   std::cout << sequence.size() - 1 << std::endl;
   for (size_t i = 0; i < sequence.size(); ++i) {
     std::cout << sequence[i] << " ";

@@ -1,11 +1,42 @@
 #include <iostream>
 #include <vector>
+#include <algorithm>
+#include <string.h>
 
-using std::vector;
+using namespace std;
 
-int lcs3(vector<int> &a, vector<int> &b, vector<int> &c) {
-  //write your code here
-  return std::min(std::min(a.size(), b.size()), c.size());
+int lcs3_mrm(vector<int> &a, vector<int> &b, vector<int> &c) {
+  int aSize = a.size();
+  int bSize = b.size();
+  int cSize = c.size();
+
+  int d[ aSize + 1 ][ bSize + 1 ][ cSize + 1 ]{};
+
+  for ( int i = 0; i <= aSize; i++ ) {
+    d[ i ][ 0 ][ 0 ] = 0;
+  }
+
+  for ( int i = 0; i <= bSize; i++ ) {
+    d[ 0 ][ i ][ 0 ] = 0;
+  }
+
+  for ( int i = 0; i <= cSize; i++ ) {
+    d[ 0 ][ 0 ][ i ] = 0;
+  }
+
+  for ( int i = 1; i <= aSize; i++ ) {
+    for ( int j = 1; j <= bSize; j++ ) {
+      for ( int k = 1; k <= cSize; k++ ) {
+        if ( a[ i - 1 ] == b[ j - 1 ] &&  a[ i - 1 ] == c[ k - 1 ] ) {
+            d[ i ][ j ][ k ] = d[ i - 1 ][ j - 1 ][ k - 1 ] + 1;
+        } else {
+            d[ i ][ j ][ k ] = max( d[ i - 1 ][ j ][ k ], max(d[ i ][ j - 1 ][ k ],d[ i ][ j ][ k - 1 ]) );
+        }
+      }
+    }
+  }
+
+  return d[ aSize ][ bSize ][ cSize ];
 }
 
 int main() {
@@ -27,5 +58,5 @@ int main() {
   for (size_t i = 0; i < cn; i++) {
     std::cin >> c[i];
   }
-  std::cout << lcs3(a, b, c) << std::endl;
+  std::cout << lcs3_mrm(a, b, c) << std::endl;
 }
